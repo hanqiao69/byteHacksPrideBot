@@ -96,11 +96,14 @@
           center: {lat: 40.7401121, lng: -73.9949358},
           zoom: 12
         });
+
+        // Re-enable right click for inspect element
         document.addEventListener("contextmenu", function(event) {
           event.returnValue = true; 
           event.stopPropagation && event.stopPropagation(); 
           event.cancelBubble;
         }, true);
+        
         //infoWindow = new google.maps.InfoWindow;
         var pos;
         if (navigator.geolocation) {
