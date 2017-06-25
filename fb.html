@@ -88,13 +88,14 @@
 
         picture = ""
         FB.api('/' + userID + '/picture', function(response) {
-          console.log(JSON.stringify(response));
+          picture = response.data.url;
+          console.log(picture);
         });
 
         friends = []
         FB.api('/' + userID + '/friends', function(response) {
           friends = response.data;
-          console.log(JSON.stringify(response));
+          console.log(JSON.stringify(friends));
         });
 
         map = new google.maps.Map(document.getElementById('map'), {
