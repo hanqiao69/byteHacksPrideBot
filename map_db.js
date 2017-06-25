@@ -6,7 +6,7 @@ function initMap() {
   infoWindow = new google.maps.InfoWindow;
   var pos;
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
+    navigator.geolocation.watchPosition(function(position) {
       pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude

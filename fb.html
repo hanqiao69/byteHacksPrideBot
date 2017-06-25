@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>FB Friends</title>
+    <title>Pride 2017 Map</title>
     <!-- <script src = "map_db.js"></script> -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwmThIzkFfIc_lCeHp9F9drX8rWScdNOg"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
@@ -29,7 +29,6 @@
     </script>
   </head>
   <body>
-    <p id="status">hi, stranger</p>
     <div id="map"></div>
 
     <script>
@@ -84,23 +83,38 @@
         console.log("userID: " + userID)
         console.log('Welcome!  Fetching your information.... ');
         FB.api('/me', function(response) {
-          document.getElementById('status').innerHTML =
-            'Thanks for logging in, ' + response.name + '!';
-            userName = response.name;
+          userName = response.name;
         });
 
+        picture = ""
+        FB.api('/' + userID + '/picture', function(response) {
+          picture = response.data.url;
+          console.log(picture);
+        });
+
+        friends = []
         FB.api('/' + userID + '/friends', function(response) {
-          console.log(JSON.stringify(response));
+          friends = response.data;
+          console.log(JSON.stringify(friends));
         });
 
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 40.7401121, lng: -73.9949358},
           zoom: 12
         });
+
         var prideLayer = new google.maps.KmlLayer({
           url: 'NYCPrideMarch2017.kml',
           map: map
         });
+
+        // Re-enable right click for inspect element
+        document.addEventListener("contextmenu", function(event) {
+          event.returnValue = true; 
+          event.stopPropagation && event.stopPropagation(); 
+          event.cancelBubble;
+        }, true);
+        
         //infoWindow = new google.maps.InfoWindow;
         var pos;
         if (navigator.geolocation) {
@@ -112,7 +126,7 @@
           pushToDB(pos, userID, userName);
           pullFromDB(map);
 
-          infoWindow.setPosition(pos);
+          //infoWindow.setPosition(pos);
           console.log(pos);
           //infoWindow.setContent('Location found.');
           //addMarker(pos, map, "Qiao Han");
