@@ -141,22 +141,49 @@
       }
 
       function pullFromDB(map, friends) {
-        for (var i in friends) {
-            console.log(friends[i]);
-          }
+        var friendId;
         var userid, pos, picture;
         var ref = firebase.database().ref();
-        ref.once("value")
-        .then(function(snapshot) {
-          snapshot.forEach(function(childSnapshot) {
-            userid = childSnapshot.key;
-            username = String(childSnapshot.child('username').val());
-            pos = childSnapshot.child('pos').val();
-            picture = childSnapshot.child('picture').val();
-            console.log(pos);
-            addMarker(pos, map, username, picture);
+        // ref.once("value")
+        // .then(function(snapshot) {
+        //   snapshot.forEach(function(childSnapshot) {
+        //     userid = childSnapshot.key;
+        //     username = String(childSnapshot.child('username').val());
+        //     pos = childSnapshot.child('pos').val();
+        //     picture = childSnapshot.child('picture').val();
+        //     console.log(pos);
+        //     addMarker(pos, map, username, picture);
+        //   });
+        // });
+
+        for (var i in friends) {
+          friendId = friends[i].id;
+          console.log(friendId);
+          ref.once("value")
+          .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              userid = childSnapshot.key;
+              if (userid == friendId) {
+                username = String(childSnapshot.child('username').val());
+                pos = childSnapshot.child('pos').val();
+                picture = childSnapshot.child('picture').val();
+                console.log(pos);
+                addMarker(pos, map, username, picture);
+              }
+            });
           });
-        });
+        }
+        // ref.once("value")
+        // .then(function(snapshot) {
+        //   snapshot.forEach(function(childSnapshot) {
+        //     userid = childSnapshot.key;
+        //     username = String(childSnapshot.child('username').val());
+        //     pos = childSnapshot.child('pos').val();
+        //     picture = childSnapshot.child('picture').val();
+        //     console.log(pos);
+        //     addMarker(pos, map, username, picture);
+        //   });
+        // });
       }
 
       function addMarker(pos, map, markerName, picture) {
