@@ -109,6 +109,7 @@
           pullFromDB();
 
           infoWindow.setPosition(pos);
+          console.log(pos);
           //infoWindow.setContent('Location found.');
           //addMarker(pos, map, "Qiao Han");
           infoWindow.open(map);
@@ -134,7 +135,7 @@
             userid = childSnapshot.val();
             username = childSnapshot.child('username').val();
             pos = childSnapshot.child('pos').val();
-            console.log(username);
+            //console.log(username);
             console.log(pos);
             addMarker(pos, map, username);
           });
@@ -143,7 +144,7 @@
 
       function addMarker(pos, map, markerName) {
         var marker = new google.maps.Marker({
-          position: {pos.lat, pos.lng}
+          position: pos,
           label: markerName,
           map: map
         });
