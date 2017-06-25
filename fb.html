@@ -102,16 +102,8 @@
           center: {lat: 40.7401121, lng: -73.9949358},
           zoom: 15
         });
-        // var url = 'https://firebasestorage.googleapis.com/v0/b/friendslocation-15838.appspot.com/o/NYCPrideMarch2017.kml?alt=media&token=e0cbe529-320e-4037-8cae-0d51a7997745'; //kml
-        var url = 'https://firebasestorage.googleapis.com/v0/b/friendslocation-15838.appspot.com/o/NYCPrideMarch2017.kmz?alt=media&token=04712030-9799-46ea-8cc4-7c22f061d8a0';
-        var kmlLayer = new google.maps.KmlLayer(url, {
-          suppressInfoWindows: true,
-          preserveViewport: true,
-          map: map
-        });
-        console.log(kmlLayer);
+        addKmlLayer(map);
 
-        // Re-enable right click for inspect element
         document.addEventListener("contextmenu", function(event) {
           event.returnValue = true; 
           event.stopPropagation && event.stopPropagation(); 
@@ -174,6 +166,30 @@
             labelOrigin: new google.maps.Point(25, -8)
           },
           draggable:true
+        });
+      }
+
+      function addKmlLayer(map) {
+        var url = 'https://firebasestorage.googleapis.com/v0/b/friendslocation-15838.appspot.com/o/NYCPrideMarch2017.kmz?alt=media&token=04712030-9799-46ea-8cc4-7c22f061d8a0';
+        var kmlLayer = new google.maps.KmlLayer(url, {
+          suppressInfoWindows: true,
+          map: map
+        });
+        //console.log(kmlLayer);
+        kmlLayer.addListener('click', function(kmlEvent) {
+          var text = kmlEvent.featureData.name;
+          console.log(kmlEvent);
+          var lat = kmlEvent.latLng.lat();
+          var lng = kmlEvent.latLng.lng();
+          showInContentWindow(text, lat, lng);
+        });
+      }
+
+      function showInContentWindow(text, lat, lng) {
+        var infowindow = new google.maps.InfoWindow({
+          content: text,
+          position: {lat: lat, lng: lng},
+          map: map
         });
       }
     </script>
