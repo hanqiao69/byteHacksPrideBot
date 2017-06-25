@@ -158,7 +158,7 @@
         var friendList = {};
         for (var i = 0; i < friends.length; i++) {
           friendId = friends[i].id;
-          friendList.add(friendId);
+          friendList.push(friendId);
         }
         console.log(friendList);
           ref.once("value")
