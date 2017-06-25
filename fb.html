@@ -119,7 +119,7 @@
             lng: position.coords.longitude
           };
           pushToDB(pos, userID, userName, picture);
-          pullFromDB(map);
+          pullFromDB(map, friends);
 
           //infoWindow.setPosition(pos);
           console.log(pos);
@@ -139,17 +139,20 @@
         firebase.database().ref().update(updates);
       }
 
-      function pullFromDB(map) {
+      function pullFromDB(map, friends) {
+        for (friend in friends) {
+            var friendId = friend.id;
+            console.log(friendId);
+          }
         var userid, pos, picture;
         var ref = firebase.database().ref();
         ref.once("value")
         .then(function(snapshot) {
           snapshot.forEach(function(childSnapshot) {
-            userid = childSnapshot.val();
+            userid = childSnapshot.key;
             username = String(childSnapshot.child('username').val());
             pos = childSnapshot.child('pos').val();
             picture = childSnapshot.child('picture').val();
-            //console.log(username);
             console.log(pos);
             addMarker(pos, map, username, picture);
           });
