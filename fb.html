@@ -124,7 +124,7 @@
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-          pushToDB(pos, userID, userName);
+          pushToDB(pos, userID, userName, picture);
           pullFromDB(map);
 
           //infoWindow.setPosition(pos);
@@ -139,14 +139,14 @@
         }
       }
 
-      function pushToDB(pos, userID, userName) {
+      function pushToDB(pos, userID, userName, picture) {
         var updates = {};
-        updates[userID] = {username: userName, pos: pos}
+        updates[userID] = {username: userName, picture: picture, pos: pos}
         firebase.database().ref().update(updates);
       }
 
       function pullFromDB(map) {
-        var userid, pos;
+        var userid, pos, picture;
         var ref = firebase.database().ref();
         ref.once("value")
         .then(function(snapshot) {
@@ -154,18 +154,23 @@
             userid = childSnapshot.val();
             username = String(childSnapshot.child('username').val());
             pos = childSnapshot.child('pos').val();
+            picture = childSnapshot.child('picture').val();
             //console.log(username);
             console.log(pos);
-            addMarker(pos, map, username);
+            addMarker(pos, map, username, picture);
           });
         });
       }
 
-      function addMarker(pos, map, markerName) {
+      function addMarker(pos, map, markerName, picture) {
         var marker = new google.maps.Marker({
           position: pos,
           label: markerName,
-          map: map
+          map: map,
+          icon: {
+            url: picture,
+            labelOrigin: new google.maps.Point(20, 0)
+          }
         });
       }
     </script>
