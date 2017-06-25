@@ -1,0 +1,154 @@
+<html>
+  <head>
+    <title>FB Friends</title>
+    <!-- <script src = "map_db.js"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwmThIzkFfIc_lCeHp9F9drX8rWScdNOg"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style type="text/css">
+      #map {
+        height: 100%;
+        width: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script>
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+              'Error: The Geolocation service failed.' :
+              'Error: Your browser doesn\'t support geolocation.');
+            infoWindow.open(map);
+          }
+    </script>
+  </head>
+  <body>
+    <p id="status">hi, stranger</p>
+    <div id="map"></div>
+
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDRdXCbRNvSAQZ31f4lAXbrL_-4vNreHRA",
+        authDomain: "friendslocation-15838.firebaseapp.com",
+        databaseURL: "https://friendslocation-15838.firebaseio.com",
+        projectId: "friendslocation-15838",
+        storageBucket: "friendslocation-15838.appspot.com",
+        messagingSenderId: "1046326063652"
+      };
+      var firebase = firebase.initializeApp(config);
+      var storage = firebase.storage();
+      var database = firebase.database();
+
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId            : '1807901269523269',
+          autoLogAppEvents : true,
+          xfbml            : true,
+          version          : 'v2.9'
+        });
+        FB.AppEvents.logPageView();
+
+        // check login status, login if not logged in, getUserInfo
+        FB.getLoginStatus(function(response) {
+          if (response.status === 'connected') {
+            getUserInfo(response.authResponse.userID);
+          } else {
+            FB.login(function(response) {
+               console.log(response);
+               getUserInfo(response.authResponse.userID);
+            }, {scope: 'user_friends'});
+          }
+        });         
+      };
+
+
+      // Load the SDK async
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
+      // Get user info
+      function getUserInfo(userID) {
+        var userName;
+        console.log("userID: " + userID)
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+          document.getElementById('status').innerHTML =
+            'Thanks for logging in, ' + response.name + '!';
+            userName = response.name;
+        });
+
+        FB.api('/' + userID + '/friends', function(response) {
+          console.log(JSON.stringify(response));
+        });
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 6
+        });
+        infoWindow = new google.maps.InfoWindow;
+        var pos;
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+          pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          pushToDB(pos, userID, userName);
+          pullFromDB();
+
+          infoWindow.setPosition(pos);
+          //infoWindow.setContent('Location found.');
+          //addMarker(pos, map, "Me");
+          infoWindow.open(map);
+          map.setCenter(pos);
+          }, function() {
+          });
+
+        }
+      }
+
+      function pushToDB(pos, userID, userName) {
+        var updates = {};
+        updates[userID] = {username: userName, pos: pos}
+        firebase.database().ref().update(updates);
+      }
+
+      function pullFromDB(map) {
+        var userid, pos;
+        var ref = firebase.database().ref();
+        ref.once("value")
+        .then(function(snapshot) {
+          snapshot.forEach(function(childSnapshot) {
+            userid = childSnapshot.val();
+            username = childSnapshot.child('username').val();
+            pos = childSnapshot.child('pos').val();
+            console.log(username);
+            console.log(pos);
+            addMarker(pos, map, username);
+          });
+        });
+      }
+
+      function addMarker(pos, map, markerName) {
+        var marker = new google.maps.Marker({
+          position: pos,
+          label: markerName,
+          map: map
+        });
+      }
+    </script>
+        
+  </body>
+</html>
