@@ -142,7 +142,7 @@
 
       function pullFromDB(map, friends) {
         for (friend in friends) {
-            console.log(friend);
+            console.log(friend.child('id'));
           }
         var userid, pos, picture;
         var ref = firebase.database().ref();
