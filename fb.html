@@ -165,7 +165,7 @@
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
               userid = childSnapshot.key;
-              if (friendList.contains(userid)) {
+              if (friendList.includes(userid)) {
                 username = String(childSnapshot.child('username').val());
                 console.log(username);
                 pos = childSnapshot.child('pos').val();
