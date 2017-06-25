@@ -107,9 +107,7 @@
         var kmlLayer = new google.maps.KmlLayer(url, {
           suppressInfoWindows: true,
           preserveViewport: true,
-          map: map
-        });
-        console.log(kmlLayer);
+
         // Re-enable right click for inspect element
         document.addEventListener("contextmenu", function(event) {
           event.returnValue = true; 
@@ -170,7 +168,7 @@
           map: map,
           icon: {
             url: picture,
-            labelOrigin: new google.maps.Point(20, 0)
+            labelOrigin: new google.maps.Point(10, -5)
           }
         });
       }
