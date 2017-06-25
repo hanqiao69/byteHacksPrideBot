@@ -155,10 +155,10 @@
         //     addMarker(pos, map, username, picture);
         //   });
         // });
-        var friendList = {};
+        var friendList = new Array(friends.length);
         for (var i = 0; i < friends.length; i++) {
           friendId = friends[i].id;
-          friendList.push(friendId);
+          friendList[i] = friendId;
         }
         console.log(friendList);
           ref.once("value")
