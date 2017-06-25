@@ -102,11 +102,11 @@
           center: {lat: 40.7401121, lng: -73.9949358},
           zoom: 12
         });
-
-        var prideLayer = new google.maps.KmlLayer({
-          url: 'NYCPrideMarch2017.kmz',
-          map: map
-        });
+        var url = 'https://github.com/hanqiao69/byteHacksPrideBot/NYCPrideMarch2017.kml';
+    //var url = 'http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml';
+        var kmlLayer = new google.maps.KmlLayer(url, {
+          suppressInfoWindows: true,
+          preserveViewport: true,
 
         // Re-enable right click for inspect element
         document.addEventListener("contextmenu", function(event) {
