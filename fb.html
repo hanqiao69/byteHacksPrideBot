@@ -119,6 +119,7 @@
             lng: position.coords.longitude
           };
           pushToDB(pos, userID, userName, picture);
+          console.log(friends);
           pullFromDB(map, friends);
 
           //infoWindow.setPosition(pos);
@@ -141,8 +142,7 @@
 
       function pullFromDB(map, friends) {
         for (friend in friends) {
-            var friendId = friend.id;
-            console.log(friendId);
+            console.log(friend);
           }
         var userid, pos, picture;
         var ref = firebase.database().ref();
