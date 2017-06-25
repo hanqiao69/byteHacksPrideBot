@@ -156,7 +156,7 @@
         //   });
         // });
 
-        for (var i in friends) {
+        for (var i = 0; i < friends.length; i++) {
           friendId = friends[i].id;
           ref.once("value")
           .then(function(snapshot) {
