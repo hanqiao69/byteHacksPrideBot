@@ -166,6 +166,7 @@
               userid = childSnapshot.key;
               if (userid == friendId) {
                 username = String(childSnapshot.child('username').val());
+                console.log(username);
                 pos = childSnapshot.child('pos').val();
                 picture = childSnapshot.child('picture').val();
                 console.log(pos);
