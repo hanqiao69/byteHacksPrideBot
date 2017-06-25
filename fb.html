@@ -99,7 +99,7 @@
         document.addEventListener("contextmenu", function(event) {
           event.returnValue = true; 
           event.stopPropagation && event.stopPropagation(); 
-          event.cancelBubble && event.cancelBubble();
+          event.cancelBubble;
         }, true);
         //infoWindow = new google.maps.InfoWindow;
         var pos;
