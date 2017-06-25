@@ -155,16 +155,17 @@
         //     addMarker(pos, map, username, picture);
         //   });
         // });
-
+        var friendList = {};
         for (var i = 0; i < friends.length; i++) {
           friendId = friends[i].id;
-          console.log(friendId);
-          console.log(friends[i].name);
+          friendList.add(friendId);
+        }
+        console.log(friendList);
           ref.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
               userid = childSnapshot.key;
-              if (userid == friendId) {
+              if (friendList.contains(userid)) {
                 username = String(childSnapshot.child('username').val());
                 console.log(username);
                 pos = childSnapshot.child('pos').val();
@@ -174,7 +175,6 @@
               }
             });
           });
-        }
         // ref.once("value")
         // .then(function(snapshot) {
         //   snapshot.forEach(function(childSnapshot) {
