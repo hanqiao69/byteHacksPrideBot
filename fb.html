@@ -106,7 +106,7 @@
             lng: position.coords.longitude
           };
           pushToDB(pos, userID, userName);
-          pullFromDB();
+          pullFromDB(map);
 
           infoWindow.setPosition(pos);
           console.log(pos);
