@@ -171,9 +171,10 @@
           label: markerName,
           map: map,
           icon: {
-            url: picture, 
-            labelOrigin: new google.maps.Point(20, -10)
-          }
+            url: String(picture), 
+            labelOrigin: new google.maps.Point(25, -8)
+          },
+          draggable:true
         });
       }
     </script>
