@@ -162,14 +162,12 @@
       }
 
       function addMarker(pos, map, markerName, picture) {
-        var marker = new google.maps.Marker({
+        var marker = new google.maps.MarkerWithLabel({
           position: pos,
-          label: markerName,
+          labelContent: markerName,
+          labelOrigin: new google.maps.Point(9, 9),
           map: map,
-          icon: {
-            url: picture,
-            labelOrigin: new google.maps.Point(20, 0)
-          }
+          icon: picture
         });
       }
     </script>
