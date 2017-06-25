@@ -102,14 +102,12 @@
           center: {lat: 40.7401121, lng: -73.9949358},
           zoom: 12
         });
-        var url = './NYCPrideMarch2017.kml';
-    //var url = 'http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml';
-        var kmlLayer = new google.maps.KmlLayer(url, {
-          suppressInfoWindows: true,
-          preserveViewport: true,
+
+        var prideLayer = new google.maps.KmlLayer({
+          url: 'NYCPrideMarch2017.kmz',
           map: map
         });
-        console.log(kmlLayer);
+
         // Re-enable right click for inspect element
         document.addEventListener("contextmenu", function(event) {
           event.returnValue = true; 
@@ -166,10 +164,12 @@
       function addMarker(pos, map, markerName, picture) {
         var marker = new google.maps.MarkerWithLabel({
           position: pos,
-          labelContent: markerName,
-          labelOrigin: new google.maps.Point(9, 9),
+          label: markerName,
           map: map,
-          icon: picture
+          icon: {
+            url: picture,
+            labelOrigin: new google.maps.Point(10, -5)
+          }
         });
       }
     </script>
