@@ -169,8 +169,10 @@
           position: pos,
           label: markerName,
           map: map,
-          icon: picture,
-          labelOrigin: new google.maps.Point(20, -10)
+          icon: {
+            url: picture, 
+            labelOrigin: new google.maps.Point(20, -10)
+          }
         });
       }
     </script>
