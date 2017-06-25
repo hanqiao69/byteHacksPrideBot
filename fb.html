@@ -86,7 +86,14 @@
           userName = response.name;
         });
 
+        picture = ""
+        FB.api('/' + userID + '/picture', function(response) {
+          console.log(JSON.stringify(response));
+        });
+
+        friends = []
         FB.api('/' + userID + '/friends', function(response) {
+          friends = response.data;
           console.log(JSON.stringify(response));
         });
 
