@@ -133,7 +133,7 @@
         .then(function(snapshot) {
           snapshot.forEach(function(childSnapshot) {
             userid = childSnapshot.val();
-            username = childSnapshot.child('username').val();
+            username = String(childSnapshot.child('username').val());
             pos = childSnapshot.child('pos').val();
             //console.log(username);
             console.log(pos);
