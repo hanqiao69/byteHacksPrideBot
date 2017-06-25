@@ -83,9 +83,7 @@
         console.log("userID: " + userID)
         console.log('Welcome!  Fetching your information.... ');
         FB.api('/me', function(response) {
-          document.getElementById('status').innerHTML =
-            'Thanks for logging in, ' + response.name + '!';
-            userName = response.name;
+          userName = response.name;
         });
 
         FB.api('/' + userID + '/friends', function(response) {
