@@ -166,7 +166,12 @@
           position: pos,
           label: markerName,
           map: map,
-          icon: picture
+          icon: {
+            url: picture,
+            size: new google.maps.Size(32, 38),
+            scaledSize: new google.maps.Size(32, 38),
+            labelOrigin: new google.maps.Point(9, 9)
+          }
         });
       }
     </script>
