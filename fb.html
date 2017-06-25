@@ -158,12 +158,12 @@
 
         for (var i in friends) {
           friendId = friends[i].id;
-          console.log(friendId);
           ref.once("value")
           .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
               userid = childSnapshot.key;
               if (userid == friendId) {
+                console.log(friends[i].name);
                 username = String(childSnapshot.child('username').val());
                 pos = childSnapshot.child('pos').val();
                 picture = childSnapshot.child('picture').val();
